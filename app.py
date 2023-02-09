@@ -35,9 +35,9 @@ st.title(Title)
 col1, col2 = st.columns([0.7, 0.3])
 
 with col1:
-    text_base = st.empty()
+    text_base = ''
 
-    text = st.text_area("Paste your text into the box below.", max_chars=10000, height=400)
+    text = st.text_area("Paste your text into the box below.", value=text_base, max_chars=10000, height=400)
     # textxsss = "Se o pessoal vê as minhas três vontades engordando desse jeito e crescendo que nem balão, eles vão rir, aposto. Eles não entendem essas coisas, acham que é infantil, não levam a sério. Eu tenho que achar depressa um lugar pra esconder as três: se tem coisa que eu não quero mais é ver gente grande rindo de mim."
 
 with col2:
@@ -45,8 +45,8 @@ with col2:
     if uploaded_file is not None:
         # To read file as bytes:
         bytes_data = uploaded_file.getvalue()
-        st.write(bytes_data)
-        # text.text_area = bytes_data
+        # st.write(bytes_data)
+        text_base = bytes_data
 
 
 tab1, tab2, tab3, tab4 = st.tabs(['Summary', 'Sentiment', 'Rewriting', 'Change Style', ])
@@ -85,7 +85,8 @@ with tab4:
             revised_text = revise_text(text, "Reescreva o texto em estilo humorístico: ")
             st.write(revised_text)                  
 
-st.header('Usage guidance')
-st.write('1 - Use a text copied from another location as a base and paste it in the indicated box. The limit is 5000 characters. You can also upload an file instead of paste the text.')
-st.write('2 - Choose the tab desired and press the button to perform the action.')
-st.write('3 - The final text will be in the same language as the original.')
+with st.sidebar:
+    st.header('Usage guidance')
+    st.write('1 - Use a text copied from another location as a base and paste it in the indicated box. The limit is 5000 characters. You can also upload an file instead of paste the text.')
+    st.write('2 - Choose the tab desired and press the button to perform the action.')
+    st.write('3 - The final text will be in the same language as the original.')

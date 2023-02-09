@@ -2,7 +2,10 @@ Project: Project in Python using ChatGPT for analysis and text processing, using
 Autor: Hamilton Tenório da Silva
 Date: feb/09/2023
 
+See this project on https://htsnet-streamlitchatgpt-app-15oz5s.streamlit.app/
 
+
+![Alt text](Screenshot_site.png)
 
 ------ Instructions ------
 pip install virtualenv
