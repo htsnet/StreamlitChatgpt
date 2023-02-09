@@ -17,7 +17,7 @@ with st.sidebar:
     temperature = st.slider('Confidence', 0, 100, 50, 1)/100
     st.write('Temperature for action. Smaller values are more accurate, larger values are more risky.')
     
-    max_tokens = st.slider('Limit words', 10, 10000, 1000, 100)
+    max_tokens = st.slider('Limit words', 10, 4000, 1000, 100)
     st.write('Limit of words for the response.')
     
     
