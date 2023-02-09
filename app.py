@@ -78,7 +78,7 @@ def readText(text, language) :
             tts = gTTS(text, lang=language)
             tts.save("text.mp3")
             # convert and load MP3
-            time.sleep(3)
+            time.sleep(10)
             pygame.mixer.music.load("text.mp3")
             # play MP3
             pygame.mixer.music.play()
@@ -124,7 +124,7 @@ with tab1:
     botSummary = st.button("Text Summary")
     if botSummary:
         if check_text(text):
-            revised_text, language = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto original: ", max_tokens, temperature)
             st.write(revised_text)
             readText(revised_text, language)
                 
@@ -134,9 +134,8 @@ with tab2:
     botSentiment = st.button("Text Sentiment")
     if botSentiment:
         if check_text(text):
-            revised_text, language = revise_text(text, "Qual o sentimento deste texto? Descreva na mesma língua do texto.", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Qual o sentimento deste texto? Descreva na mesma língua do texto a seguir.", max_tokens, temperature)
             st.write(revised_text)    
-            readText(revised_text, language)
 
         
 with tab3:        
@@ -144,7 +143,7 @@ with tab3:
     botRewriting = st.button("Text Rewriting")
     if botRewriting:
         if check_text(text):
-            revised_text, language = revise_text(text, "Reescreva e melhore o texto, mantendo a língua do texto: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Reescreva e melhore o texto a seguir, mantendo a língua do texto original: ", max_tokens, temperature)
             st.write(revised_text)   
             readText(revised_text, language)
 
