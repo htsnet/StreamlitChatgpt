@@ -2,6 +2,8 @@ import streamlit as st
 import openai
 from io import StringIO
 import pdfplumber
+from gtts import gTTS
+import pygame
 
 # Insira sua chave de API aqui
 openai.api_key = st.secrets['api_key_openai']
@@ -14,14 +16,19 @@ with st.sidebar:
     st.write('4 - Use the options below to change responses.')
     
     st.header('Parameters')
+    
+    read_text = st.radio(
+        "Read text after executed?",
+        ('Yes', 'No'), 0)
+    st.markdown("""---""")
+    
     temperature = st.slider('Confidence', 0, 100, 50, 1)/100
     st.write('Temperature for action. Smaller values are more accurate, larger values are more risky.')
+    st.markdown("""---""")
     
     max_tokens = st.slider('Limit words', 10, 4000, 1000, 100)
     st.write('Limit of words for the response.')
     
-    
-
 def revise_text(text, acao, max_tokens, temperature):
     with st.spinner('Wait for it...'):
         completions = openai.Completion.create(
@@ -35,7 +42,22 @@ def revise_text(text, acao, max_tokens, temperature):
 
     message = completions.choices[0].text
     # print(message)
-    return message
+    with st.spinner('Just one more monute...'):
+        completions = openai.Completion.create(
+            engine="text-davinci-002",
+            prompt='qual é a língua deste texto, em apenas uma palavra: "' + message,
+        )
+    # define language
+    language = completions.choices[0].text.upper()
+    # st.write(language)
+    # print(language)
+    if language == "PORTUGUÊS" or language == "PORTUGUESE"  or language == "PORT" :
+        sigla_language = 'pt'
+    elif language == "INGLÊS" or language == "ENGLISH" or language == "ENG" :
+        sigla_language = 'en'
+    else:
+        sigla_language = 'auto'
+    return message, sigla_language
 
 def check_text(text):
     if text:
@@ -43,6 +65,24 @@ def check_text(text):
     st.info('The text field is empty!', icon="⚠️")
     return False
 
+def readText(text, language):
+    # print(read_text)
+    if read_text == "Yes":
+        with st.spinner('Sit back and enjoy the speech ...'):
+            # initialize pygame
+            pygame.init()
+            # generate MP3
+            tts = gTTS(text, lang=language)
+            tts.save("text.mp3")
+            # convert and load MP3
+            pygame.mixer.music.load("text.mp3")
+            # play MP3
+            pygame.mixer.music.play()
+            # wait finish
+            while pygame.mixer.music.get_busy():
+                pygame.time.Clock().tick(10)
+            # quit pygame
+            pygame.quit()
 
 # título
 Title = f'Analysis and Improvement of Texts with AI (ChatGPT)'
@@ -81,30 +121,35 @@ with tab1:
     botSummary = st.button("Text Summary")
     if botSummary:
         if check_text(text):
-            revised_text = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)
+            readText(revised_text, 'pt')
+                
 
 with tab2:    
     st.write('Identify the principal sentiment')
     botSentiment = st.button("Text Sentiment")
     if botSentiment:
         if check_text(text):
-            revised_text = revise_text(text, "Qual o sentimento deste texto? Descreva na mesma língua do texto.", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Qual o sentimento deste texto? Descreva na mesma língua do texto.", max_tokens, temperature)
             st.write(revised_text)    
+            readText(revised_text, 'pt')
         
 with tab3:        
     st.write('Rewrite and try to improve the text')
     botRewriting = st.button("Text Rewriting")
     if botRewriting:
         if check_text(text):
-            revised_text = revise_text(text, "Reescreva e melhore o texto, mantendo a língua do texto: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Reescreva e melhore o texto, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)   
+            readText(revised_text, 'pt')
 
 with tab4:        
     st.write('Change the style to humorous')
     botStyle = st.button("Change Style")
     if botStyle:
         if check_text(text):
-            revised_text = revise_text(text, "Reescreva o texto em estilo humorístico, mantendo a língua do texto: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Reescreva o texto em estilo humorístico, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)                  
+            readText(revised_text, 'pt')
 
