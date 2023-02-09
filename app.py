@@ -16,13 +16,18 @@ with st.sidebar:
     st.header('Parameters')
     temperature = st.slider('Confidence', 0, 100, 50, 1)/100
     st.write('Temperature for action. Smaller values are more accurate, larger values are more risky.')
+    
+    max_tokens = st.slider('Limit words', 10, 10000, 1000, 100)
+    st.write('Limit of words for the response.')
+    
+    
 
-def revise_text(text, acao):
+def revise_text(text, acao, max_tokens, temperature):
     with st.spinner('Wait for it...'):
         completions = openai.Completion.create(
             engine="text-davinci-002",
             prompt=acao + '"' + text + ' "' + ", mantenha a língua na do texto tratado",
-            max_tokens=1024,
+            max_tokens=max_tokens,
             n=1,
             stop=None,
             temperature=temperature,
@@ -76,7 +81,7 @@ with tab1:
     botSummary = st.button("Text Summary")
     if botSummary:
         if check_text(text):
-            revised_text = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto: ")
+            revised_text = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)
 
 with tab2:    
@@ -84,7 +89,7 @@ with tab2:
     botSentiment = st.button("Text Sentiment")
     if botSentiment:
         if check_text(text):
-            revised_text = revise_text(text, "Qual o sentimento deste texto? Descreva na mesma língua do texto.")
+            revised_text = revise_text(text, "Qual o sentimento deste texto? Descreva na mesma língua do texto.", max_tokens, temperature)
             st.write(revised_text)    
         
 with tab3:        
@@ -92,7 +97,7 @@ with tab3:
     botRewriting = st.button("Text Rewriting")
     if botRewriting:
         if check_text(text):
-            revised_text = revise_text(text, "Reescreva e melhore o texto, mantendo a língua do texto: ")
+            revised_text = revise_text(text, "Reescreva e melhore o texto, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)   
 
 with tab4:        
@@ -100,6 +105,6 @@ with tab4:
     botStyle = st.button("Change Style")
     if botStyle:
         if check_text(text):
-            revised_text = revise_text(text, "Reescreva o texto em estilo humorístico, mantendo a língua do texto: ")
+            revised_text = revise_text(text, "Reescreva o texto em estilo humorístico, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)                  
 
