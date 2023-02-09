@@ -37,11 +37,11 @@ col1, col2 = st.columns([0.7, 0.3])
 with col1:
     text_base = ''
 
-    text = st.text_area("Paste your text into the box below.", value=text_base, max_chars=10000, height=400)
+    text = st.text_area("Paste your text into the box below.", value=text_base, max_chars=10000, height=400, key='text_area_field')
     # textxsss = "Se o pessoal vê as minhas três vontades engordando desse jeito e crescendo que nem balão, eles vão rir, aposto. Eles não entendem essas coisas, acham que é infantil, não levam a sério. Eu tenho que achar depressa um lugar pra esconder as três: se tem coisa que eu não quero mais é ver gente grande rindo de mim."
 
 with col2:
-    uploaded_file = st.file_uploader("Or choose a file")
+    uploaded_file = st.file_uploader("Or choose a file to upload",  type=['txt', 'pdf', 'docx', 'doc'], help="Only txt, docs or pdf files.")
     if uploaded_file is not None:
         # To read file as bytes:
         bytes_data = uploaded_file.getvalue()
