@@ -2,8 +2,8 @@ import streamlit as st
 import openai
 from io import StringIO
 import pdfplumber
-from gtts import gTTS
-import pygame
+# from gtts import gTTS
+# import pygame
 import re
 import time
 
@@ -19,10 +19,10 @@ with st.sidebar:
     
     st.header('Parameters')
     
-    read_text = st.radio(
-        "Read text after executed?",
-        ('Yes', 'No'), 1)
-    st.markdown("""---""")
+    # read_text = st.radio(
+    #     "Read text after executed?",
+    #     ('Yes', 'No'), 1)
+    # st.markdown("""---""")
     
     temperature = st.slider('Confidence', 0, 100, 50, 1)/100
     st.write('Temperature for action. Smaller values are more accurate, larger values are more risky.')
@@ -71,26 +71,26 @@ def check_text(text):
     st.info('The text field is empty!', icon="⚠️")
     return False
 
-def readText(text, language) :
-    print(read_text)
-    print(language)
-    if read_text == "Yes":
-        with st.spinner('Sit back and enjoy the speech ...'):
-            # initialize pygame
-            pygame.init()
-            # generate MP3
-            tts = gTTS(text, lang=language)
-            tts.save("text.mp3")
-            # convert and load MP3
-            time.sleep(10)
-            pygame.mixer.music.load("text.mp3")
-            # play MP3
-            pygame.mixer.music.play()
-            # wait finish
-            while pygame.mixer.music.get_busy():
-                pygame.time.Clock().tick(10)
-            # quit pygame
-            pygame.quit()
+# def readText(text, language) :
+#     print(read_text)
+#     print(language)
+#     if read_text == "Yes":
+#         with st.spinner('Sit back and enjoy the speech ...'):
+#             # initialize pygame
+#             pygame.init()
+#             # generate MP3
+#             tts = gTTS(text, lang=language)
+#             tts.save("text.mp3")
+#             # convert and load MP3
+#             time.sleep(10)
+#             pygame.mixer.music.load("text.mp3")
+#             # play MP3
+#             pygame.mixer.music.play()
+#             # wait finish
+#             while pygame.mixer.music.get_busy():
+#                 pygame.time.Clock().tick(10)
+#             # quit pygame
+#             pygame.quit()
 
 # título
 Title = f'Analysis and Improvement of Texts with AI (ChatGPT)'
@@ -102,7 +102,7 @@ col1, col2 = st.columns([0.3, 0.7])
 text_base = ''
 
 with col1:
-    uploaded_file = st.file_uploader("Choose a file to upload",  type=['txt', 'pdf'], help="Only txt file.")
+    uploaded_file = st.file_uploader("Choose a file to upload",  type=['txt', 'pdf'], help="Only txt/pdf file.")
     if uploaded_file is not None:
         nameFile = uploaded_file.name.upper().split('.')
         if nameFile[-1] == 'PDF':
@@ -130,7 +130,7 @@ with tab1:
         if check_text(text):
             revised_text, language = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto original: ", max_tokens, temperature)
             st.write(revised_text)
-            readText(revised_text, language)
+            # readText(revised_text, language)
                 
 
 with tab2:    
@@ -149,7 +149,7 @@ with tab3:
         if check_text(text):
             revised_text, language = revise_text(text, "Reescreva e melhore o texto a seguir, mantendo a língua do texto original: ", max_tokens, temperature)
             st.write(revised_text)   
-            readText(revised_text, language)
+            # readText(revised_text, language)
 
 
 with tab4:        
@@ -159,6 +159,6 @@ with tab4:
         if check_text(text):
             revised_text, language = revise_text(text, "Reescreva o texto em estilo humorístico, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)                  
-            readText(revised_text, language)
+            # readText(revised_text, language)
 
 
