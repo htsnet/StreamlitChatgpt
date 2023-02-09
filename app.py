@@ -1,11 +1,8 @@
 import streamlit as st
 import openai
-import os
-
-openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Insira sua chave de API aqui
-openai.api_key = "token"
+openai.api_key = st.secrets['api_key_openai']
 
 def revise_text(text, acao):
     completions = openai.Completion.create(
