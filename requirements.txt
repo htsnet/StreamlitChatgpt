@@ -2,4 +2,3 @@ openai
 pdfplumber
 gtts
 pygame
-re
