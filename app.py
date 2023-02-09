@@ -31,6 +31,10 @@ with st.sidebar:
     max_tokens = st.slider('Limit words', 10, 4000, 1000, 100)
     st.write('Limit of words for the response.')
     
+    st.header('About')
+    st.write('Details about this project can be found in: https://github.com/htsnet/StreamlitChatgpt')
+    
+    
 def revise_text(text, acao, max_tokens, temperature):
     with st.spinner('Wait for it...'):
         completions = openai.Completion.create(
