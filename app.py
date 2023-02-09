@@ -4,6 +4,7 @@ from io import StringIO
 import pdfplumber
 from gtts import gTTS
 import pygame
+import re
 
 # Insira sua chave de API aqui
 openai.api_key = st.secrets['api_key_openai']
@@ -19,7 +20,7 @@ with st.sidebar:
     
     read_text = st.radio(
         "Read text after executed?",
-        ('Yes', 'No'), 0)
+        ('Yes', 'No'), 1)
     st.markdown("""---""")
     
     temperature = st.slider('Confidence', 0, 100, 50, 1)/100
@@ -42,21 +43,21 @@ def revise_text(text, acao, max_tokens, temperature):
 
     message = completions.choices[0].text
     # print(message)
-    with st.spinner('Just one more monute...'):
+    with st.spinner('Just one more minute...'):
         completions = openai.Completion.create(
             engine="text-davinci-002",
-            prompt='qual é a língua deste texto, em apenas uma palavra: "' + message,
+            prompt='qual é a língua do texto a seguir, em apenas uma palavra: "' + message,
         )
     # define language
     language = completions.choices[0].text.upper()
     # st.write(language)
     # print(language)
-    if language == "PORTUGUÊS" or language == "PORTUGUESE"  or language == "PORT" :
+    if re.search("PORT", language):
         sigla_language = 'pt'
-    elif language == "INGLÊS" or language == "ENGLISH" or language == "ENG" :
+    elif re.search("NGL", language):
         sigla_language = 'en'
     else:
-        sigla_language = 'auto'
+        sigla_language = 'en'
     return message, sigla_language
 
 def check_text(text):
@@ -65,8 +66,9 @@ def check_text(text):
     st.info('The text field is empty!', icon="⚠️")
     return False
 
-def readText(text, language):
-    # print(read_text)
+def readText(text, language) :
+    print(read_text)
+    print(language)
     if read_text == "Yes":
         with st.spinner('Sit back and enjoy the speech ...'):
             # initialize pygame
@@ -110,7 +112,6 @@ with col1:
 
 with col2:
     text = st.text_area("or paste your text into the box below.", value=text_base, max_chars=10000, height=400, key='text_area_field')
-    # textxsss = "Se o pessoal vê as minhas três vontades engordando desse jeito e crescendo que nem balão, eles vão rir, aposto. Eles não entendem essas coisas, acham que é infantil, não levam a sério. Eu tenho que achar depressa um lugar pra esconder as três: se tem coisa que eu não quero mais é ver gente grande rindo de mim."
 
 tab1, tab2, tab3, tab4 = st.tabs(['Summary', 'Sentiment', 'Rewriting', 'Change Style', ])
 
@@ -123,7 +124,7 @@ with tab1:
         if check_text(text):
             revised_text, language = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)
-            readText(revised_text, 'pt')
+            readText(revised_text, language)
                 
 
 with tab2:    
@@ -133,7 +134,8 @@ with tab2:
         if check_text(text):
             revised_text, language = revise_text(text, "Qual o sentimento deste texto? Descreva na mesma língua do texto.", max_tokens, temperature)
             st.write(revised_text)    
-            readText(revised_text, 'pt')
+            readText(revised_text, language)
+
         
 with tab3:        
     st.write('Rewrite and try to improve the text')
@@ -142,7 +144,8 @@ with tab3:
         if check_text(text):
             revised_text, language = revise_text(text, "Reescreva e melhore o texto, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)   
-            readText(revised_text, 'pt')
+            readText(revised_text, language)
+
 
 with tab4:        
     st.write('Change the style to humorous')
@@ -151,5 +154,6 @@ with tab4:
         if check_text(text):
             revised_text, language = revise_text(text, "Reescreva o texto em estilo humorístico, mantendo a língua do texto: ", max_tokens, temperature)
             st.write(revised_text)                  
-            readText(revised_text, 'pt')
+            readText(revised_text, language)
+
 
