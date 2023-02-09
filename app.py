@@ -120,7 +120,7 @@ with col1:
 with col2:
     text = st.text_area("or paste your text into the box below.", value=text_base, max_chars=10000, height=400, key='text_area_field')
 
-tab1, tab2, tab3, tab4 = st.tabs(['Summary', 'Sentiment', 'Rewriting', 'Change Style', ])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Summary', 'Sentiment', 'Rewriting', 'Change Style', 'Questions', 'Child'])
 
 
 # show tabs to choose the action
@@ -162,4 +162,20 @@ with tab4:
             st.write(revised_text)                  
             # readText(revised_text, language)
 
+with tab5:        
+    st.write('Questions')
+    botQuestions = st.button("Possible questions")
+    if botQuestions:
+        if check_text(text):
+            revised_text, language = revise_text(text, "Faça perguntas sobre o texto, mantendo a língua do texto: ", max_tokens, temperature)
+            st.write(revised_text)                  
+            # readText(revised_text, language)
 
+with tab6:        
+    st.write('Child')
+    botChild = st.button("Child explanation")
+    if botChild:
+        if check_text(text):
+            revised_text, language = revise_text(text, "explique o texto em linguagem infantil, mantendo a língua do texto: ", max_tokens, temperature)
+            st.write(revised_text)                  
+            # readText(revised_text, language)
