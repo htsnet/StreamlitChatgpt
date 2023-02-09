@@ -27,7 +27,7 @@ def revise_text(text, acao, max_tokens, temperature):
         completions = openai.Completion.create(
             engine="text-davinci-002",
             prompt=acao + '"' + text + ' "' + ", mantenha a língua na do texto tratado",
-            max_tokens=max_tokens,
+            max_tokens=max_tokens-len(text), # to not pass the limit of 4097 tokens for this engine
             n=1,
             stop=None,
             temperature=temperature,
