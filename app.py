@@ -19,6 +19,7 @@ with st.sidebar:
     
     st.header('Parameters')
     
+    # TODO discover why in Streamlit (server) it does not work
     # read_text = st.radio(
     #     "Read text after executed?",
     #     ('Yes', 'No'), 1)
