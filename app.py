@@ -5,6 +5,7 @@ import pdfplumber
 from gtts import gTTS
 import pygame
 import re
+import time
 
 # Insira sua chave de API aqui
 openai.api_key = st.secrets['api_key_openai']
@@ -77,6 +78,7 @@ def readText(text, language) :
             tts = gTTS(text, lang=language)
             tts.save("text.mp3")
             # convert and load MP3
+            time.sleep(3)
             pygame.mixer.music.load("text.mp3")
             # play MP3
             pygame.mixer.music.play()
