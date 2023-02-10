@@ -41,7 +41,8 @@ def revise_text(text, acao, max_tokens, temperature):
         completions = openai.Completion.create(
             engine="text-davinci-002",
             prompt=acao + '"' + text + ' "' + ", mantenha a língua na do texto tratado",
-            max_tokens=max_tokens-len(text), # to not pass the limit of 4097 tokens for this engine
+            # max_tokens=max_tokens-len(text), # to not pass the limit of 4097 tokens for this engine
+            max_tokens=max_tokens,
             n=1,
             stop=None,
             temperature=temperature,
@@ -112,6 +113,9 @@ with col1:
                 pages = pdf.pages
                 for p in pages:
                     text_base = text_base + p.extract_text()
+                if len(text_base)>4000:
+                    text_base = text_base[0:4000]
+                    st.info('The text was reduced to 4000 characters!', icon="⚠️")
         elif nameFile[-1] == 'TXT':
             text_base = uploaded_file.read().decode('utf-8')
         else:
