@@ -26,7 +26,7 @@ with st.sidebar:
     # st.markdown("""---""")
     
     temperature = st.slider('Temperature', 0, 100, 50, 1)/100
-    st.write('Temperature for action. Smaller values are more accurate, larger values are more risky.')
+    st.write('Temperature for action. Smaller values are more accurate, larger values are riskier.')
     st.markdown("""---""")
     
     max_tokens = st.slider('Limit words', 10, 4000, 1000, 100)
@@ -133,7 +133,7 @@ with tab1:
     botSummary = st.button("Text Summary")
     if botSummary:
         if check_text(text):
-            revised_text, language = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto original: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Faça um resumo rápido deste texto, mantendo a língua do texto original ", max_tokens, temperature)
             st.write(revised_text)
             # readText(revised_text, language)
                 
@@ -143,7 +143,7 @@ with tab2:
     botSentiment = st.button("Text Sentiment")
     if botSentiment:
         if check_text(text):
-            revised_text, language = revise_text(text, "Qual o sentimento deste texto? Descreva na mesma língua do texto a seguir.", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Qual o sentimento deste texto? Descreva na mesma língua do texto a seguir ", max_tokens, temperature)
             st.write(revised_text)    
 
         
@@ -152,7 +152,7 @@ with tab3:
     botRewriting = st.button("Text Rewriting")
     if botRewriting:
         if check_text(text):
-            revised_text, language = revise_text(text, "Reescreva e melhore o texto a seguir, mantendo a língua do texto original: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Reescreva e melhore o texto a seguir, mantendo a língua do texto original  ", max_tokens, temperature)
             st.write(revised_text)   
             # readText(revised_text, language)
 
@@ -162,7 +162,7 @@ with tab4:
     botStyle = st.button("Change Style")
     if botStyle:
         if check_text(text):
-            revised_text, language = revise_text(text, "Reescreva o texto em estilo humorístico, mantendo a língua do texto: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Reescreva o texto em estilo humorístico, mantendo a língua do texto  ", max_tokens, temperature)
             st.write(revised_text)                  
             # readText(revised_text, language)
 
@@ -171,7 +171,7 @@ with tab5:
     botQuestions = st.button("Possible questions")
     if botQuestions:
         if check_text(text):
-            revised_text, language = revise_text(text, "Faça perguntas sobre o texto, mantendo a língua do texto: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "Faça perguntas sobre o texto, mantendo a língua do texto  ", max_tokens, temperature)
             st.write(revised_text)                  
             # readText(revised_text, language)
 
@@ -180,6 +180,6 @@ with tab6:
     botChild = st.button("Child explanation")
     if botChild:
         if check_text(text):
-            revised_text, language = revise_text(text, "explique o texto em linguagem infantil, mantendo a língua do texto: ", max_tokens, temperature)
+            revised_text, language = revise_text(text, "explique o texto em linguagem infantil, mantendo a língua do texto  ", max_tokens, temperature)
             st.write(revised_text)                  
             # readText(revised_text, language)
