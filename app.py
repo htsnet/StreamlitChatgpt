@@ -12,10 +12,10 @@ openai.api_key = st.secrets['api_key_openai']
 
 with st.sidebar:
     st.header('Usage guidance')
-    st.write('1 - Upload an TXT file to be treated. Or paste a text in the indicated box. The limit is 5000 characters.')
+    st.write('1 - Upload an TXT or PDF file to be treated. Or paste a text in the indicated box. The limit is 4000 characters.')
     st.write('2 - Choose the tab desired and press the button to perform the action.')
     st.write('3 - The final text will be in the same language as the original.')
-    st.write('4 - Use the options below to change responses.')
+    st.write('4 - Use the parameters below to change responses.')
     
     st.header('Parameters')
     
@@ -25,7 +25,7 @@ with st.sidebar:
     #     ('Yes', 'No'), 1)
     # st.markdown("""---""")
     
-    temperature = st.slider('Confidence', 0, 100, 50, 1)/100
+    temperature = st.slider('Temperature', 0, 100, 50, 1)/100
     st.write('Temperature for action. Smaller values are more accurate, larger values are more risky.')
     st.markdown("""---""")
     
@@ -118,7 +118,7 @@ with col1:
             st.error('Wrong type!')
 
 with col2:
-    text = st.text_area("or paste your text into the box below.", value=text_base, max_chars=10000, height=400, key='text_area_field')
+    text = st.text_area("or paste your text into the box below.", value=text_base, max_chars=4000, height=400, key='text_area_field')
 
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Summary', 'Sentiment', 'Rewriting', 'Change Style', 'Questions', 'Child'])
 
